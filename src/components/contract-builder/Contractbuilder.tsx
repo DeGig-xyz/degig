@@ -9,6 +9,7 @@ import { useWallet } from "@/hooks/use-wallet";
 import { DescriptionUI } from "../layout/job-details/DescriptionUI";
 import { MinimalTiptapEditor } from "../tiptap";
 import { cn } from "@/utils";
+import { useEffect } from "react";
 
 export default function ContractBuilderForm({
   initialData,
@@ -19,6 +20,12 @@ export default function ContractBuilderForm({
 }) {
   const { form } = useContractBuilderForm(initialData);
   const { address } = useWallet();
+
+  useEffect(() => {
+    if (address) {
+      form.setValue("partyA", address);
+    }
+  }, [address, form]);
 
   return (
     <div className="bg-background flex min-h-screen flex-col justify-between">
@@ -31,14 +38,14 @@ export default function ContractBuilderForm({
                 <FormField
                   control={form.control}
                   name="partyA"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem className="flex w-full flex-col gap-2">
                       <FormLabel className="after:ml-0.5 after:text-red-500 after:content-['*'] text-[0.85rem] text-slate-600 sm:text-[0.9rem]">
                         Party A(You):
                       </FormLabel>
                       <div className="flex w-full rounded-md border">
                         <FormControl>
-                          <Input className="mt-0 border-none focus-visible:ring-0" value={address ?? ""} readOnly />
+                          <Input className="mt-0 border-none focus-visible:ring-0" {...field} readOnly />
                         </FormControl>
                       </div>
                       <div className="flex items-center justify-between gap-4">
@@ -107,7 +114,7 @@ export default function ContractBuilderForm({
                           placeholder="Enter your Terms and conditions description..."
                           autofocus={true}
                           editable={true}
-                          className="min-h-[60vh] w-full border-0 text-sm"
+                          className="min-h-[30vh] w-full border-0 text-sm"
                           editorContentClassName="p-4 px-2 h-full"
                           editorClassName="focus:outline-hidden h-full"
                         />

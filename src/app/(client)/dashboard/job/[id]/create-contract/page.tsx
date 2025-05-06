@@ -9,7 +9,7 @@ import React from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
-import { createContract } from "@/services/job/create-contract";
+import { createContract } from "@/services/contract/create";
 import { ContractFormValues } from "@/components/contract-builder/hooks/contract-builder";
 import ContractBuilderForm from "@/components/contract-builder/Contractbuilder";
 
@@ -33,9 +33,13 @@ export default function Page() {
         throw new Error("Wallet address is required");
       }
       const res = await createContract({
+        jobId: params.id,
         data: values,
       });
-      console.log("res", res);
+      toast.success(res, {
+        description: "Contract created successfully",
+      });
+      // window.location.href = "/contracts/";
     } catch (error) {
       toast.warning("Error creating job", {
         description: parseError(error),

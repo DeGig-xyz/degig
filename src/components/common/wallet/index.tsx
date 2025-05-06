@@ -17,8 +17,9 @@ export function WalletConnect() {
   useEffect(() => {
     const loadWallet = async () => {
       const walletId = localStorage.getItem("CWallet");
-      if (walletId) {
-        await connect(walletId);
+      const walletAddress = localStorage.getItem("CWalletAddress");
+      if (walletId && walletAddress) {
+        await connect(walletId, walletAddress);
       }
       setIsLoading(false);
     };
@@ -26,7 +27,7 @@ export function WalletConnect() {
   }, [connect]);
 
   const handleConnect = async (wallet: Wallet) => {
-    await connect(wallet.id);
+    await connect(wallet.id, null);
     setOpenModal(false);
   };
 

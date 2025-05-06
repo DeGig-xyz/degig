@@ -17,8 +17,8 @@ export function useContractBuilderForm(initialData?: Partial<ContractFormValues>
   const form = useForm<ContractFormValues>({
     resolver: zodResolver(contractFormSchema),
     defaultValues: {
-      partyA: "123",
-      partyB: "fsd",
+      partyA: "",
+      partyB: "",
       description: initialData?.description || "",
       termsAndConditions: initialData?.termsAndConditions || "",
       reward: parseInt(initialData?.reward?.toString() || "0"),

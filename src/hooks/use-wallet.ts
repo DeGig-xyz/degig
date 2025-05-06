@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { BrowserWallet } from "@meshsdk/core";
+import { isNil } from "lodash";
 
 export interface WalletStoreType {
   walletId: string | null;
   walletIcon: string | null;
   address: string | null;
   browserWallet: BrowserWallet | null;
-  connect: (walletId: string) => Promise<void>;
+  connect: (walletId: string, initAddress: string | null) => Promise<void>;
   disconnect: () => Promise<void>;
 }
 
@@ -16,7 +17,7 @@ export const useWallet = create<WalletStoreType>((set, get) => ({
   walletIcon: null,
   browserWallet: null,
 
-  connect: async (walletId: string) => {
+  connect: async (walletId: string, initAddress = null) => {
     const browserWallet: BrowserWallet = await BrowserWallet.enable(walletId);
 
     if (!browserWallet) {
@@ -26,6 +27,10 @@ export const useWallet = create<WalletStoreType>((set, get) => ({
     const address = await browserWallet.getChangeAddress();
     if (!address) {
       throw new Error("Failed to get address");
+    }
+
+    if (!isNil(initAddress) && address !== initAddress) {
+      throw new Error("Account mismatch");
     }
 
     const stakeAddress = await browserWallet.getRewardAddresses();
@@ -39,6 +44,7 @@ export const useWallet = create<WalletStoreType>((set, get) => ({
     });
 
     localStorage.setItem("CWallet", walletId);
+    localStorage.setItem("CWalletAddress", address);
 
     set({
       walletId: walletId,
@@ -74,6 +80,7 @@ export const useWallet = create<WalletStoreType>((set, get) => ({
 
   disconnect: async () => {
     localStorage.removeItem("CWallet");
+    localStorage.removeItem("CWalletAddress");
     set({ browserWallet: null, walletId: null, walletIcon: null, address: null });
   },
 }));
