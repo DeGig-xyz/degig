@@ -66,23 +66,6 @@
     }
   ],
   "definitions": {
-    "Bool": {
-      "title": "Bool",
-      "anyOf": [
-        {
-          "title": "False",
-          "dataType": "constructor",
-          "index": 0,
-          "fields": []
-        },
-        {
-          "title": "True",
-          "dataType": "constructor",
-          "index": 1,
-          "fields": []
-        }
-      ]
-    },
     "ByteArray": {
       "dataType": "bytes"
     },
@@ -250,11 +233,11 @@
             },
             {
               "title": "in_progress",
-              "$ref": "#/definitions/Bool"
+              "$ref": "#/definitions/Int"
             },
             {
               "title": "in_dispute",
-              "$ref": "#/definitions/Bool"
+              "$ref": "#/definitions/Int"
             },
             {
               "title": "escrow_amount",

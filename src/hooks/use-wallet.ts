@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { BrowserWallet } from "@meshsdk/core";
 import { isNil } from "lodash";
+import { toast } from "sonner";
+import { parseError } from "@/utils/parse-error";
 
 export interface WalletStoreType {
   walletId: string | null;
@@ -18,40 +20,46 @@ export const useWallet = create<WalletStoreType>((set, get) => ({
   browserWallet: null,
 
   connect: async (walletId: string, initAddress = null) => {
-    const browserWallet: BrowserWallet = await BrowserWallet.enable(walletId);
+    try {
+      const browserWallet: BrowserWallet = await BrowserWallet.enable(walletId);
 
-    if (!browserWallet) {
-      throw new Error("Failed to connect wallet");
+      if (!browserWallet) {
+        throw new Error("Failed to connect wallet");
+      }
+
+      const address = await browserWallet.getChangeAddress();
+      if (!address) {
+        throw new Error("Failed to get address");
+      }
+
+      if (!isNil(initAddress) && address !== initAddress) {
+        throw new Error("Account mismatch");
+      }
+
+      const stakeAddress = await browserWallet.getRewardAddresses();
+      if (!stakeAddress) {
+        throw new Error("Failed to get stake address");
+      }
+
+      const walletIcon = await BrowserWallet.getAvailableWallets().then((wallets) => {
+        const wallet = wallets.find((w) => w.id === walletId);
+        return wallet ? wallet.icon : null;
+      });
+
+      localStorage.setItem("CWallet", walletId);
+      localStorage.setItem("CWalletAddress", address);
+
+      set({
+        walletId: walletId,
+        walletIcon: walletIcon,
+        address: address,
+        browserWallet: browserWallet,
+      });
+    } catch (error) {
+      toast.error("Error", {
+        description: parseError(error),
+      });
     }
-
-    const address = await browserWallet.getChangeAddress();
-    if (!address) {
-      throw new Error("Failed to get address");
-    }
-
-    if (!isNil(initAddress) && address !== initAddress) {
-      throw new Error("Account mismatch");
-    }
-
-    const stakeAddress = await browserWallet.getRewardAddresses();
-    if (!stakeAddress) {
-      throw new Error("Failed to get stake address");
-    }
-
-    const walletIcon = await BrowserWallet.getAvailableWallets().then((wallets) => {
-      const wallet = wallets.find((w) => w.id === walletId);
-      return wallet ? wallet.icon : null;
-    });
-
-    localStorage.setItem("CWallet", walletId);
-    localStorage.setItem("CWalletAddress", address);
-
-    set({
-      walletId: walletId,
-      walletIcon: walletIcon,
-      address: address,
-      browserWallet: browserWallet,
-    });
   },
 
   signTx: async (unsignedTx: string) => {

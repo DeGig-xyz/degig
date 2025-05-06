@@ -10,9 +10,13 @@ import { isNil } from "lodash";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { jobId, partyA, ...data } = body;
+    const { jobId, ...data } = body;
     if (!jobId) {
       throw new Error("Job ID is required");
+    }
+    
+    if (!data.partyA || !data.partyB || !data.reward) {
+      throw new Error("Missing required fields");
     }
 
     const jsonString = JSON.stringify(data, null, 2);
@@ -42,7 +46,7 @@ export async function POST(request: NextRequest) {
       submitter: blockfrostProvider,
       key: {
         type: "address",
-        address: partyA,
+        address: data.partyA,
       },
     });
 
@@ -62,9 +66,9 @@ export async function POST(request: NextRequest) {
 
     const unsignedTx: string = await contract.create({
       source: uploadResponse.data.IpfsHash,
-      aParty: partyA,
-      bParty: data.bParty,
-      amount: data.amount,
+      aParty: data.partyA,
+      bParty: data.partyB,
+      amount: data.reward,
     });
 
     if (isNil(unsignedTx)) {
@@ -78,6 +82,7 @@ export async function POST(request: NextRequest) {
     };
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
+    console.error("Error creating contract:", error);
     const errorResponse: ApiResponseInterface = {
       statusCode: 500,
       message: parseError(error),
