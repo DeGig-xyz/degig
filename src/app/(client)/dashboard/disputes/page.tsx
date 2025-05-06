@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AlertCircle, CheckCircle2, Clock, FileText, MessageSquare, ShieldAlert } from "lucide-react";
 
 export default function DisputesPage() {
-  const  role = "client"; // This should be dynamically set based on the user's role
+  const role = "client"; // This should be dynamically set based on the user's role
 
   return (
     <div className="space-y-6">
