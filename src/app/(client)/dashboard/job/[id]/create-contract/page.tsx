@@ -9,7 +9,7 @@ import React from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
-import { createContract } from "@/services/contract/create";
+import { createContract } from "@/services/contract";
 import { ContractFormValues } from "@/components/contract-builder/hooks/contract-builder";
 import ContractBuilderForm from "@/components/contract-builder/Contractbuilder";
 import { appNetwork } from "@/constants/contract";

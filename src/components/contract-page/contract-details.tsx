@@ -11,6 +11,7 @@ import { ErrorSection } from "../common/ErrorSection";
 import { parseError } from "@/utils/parse-error";
 import { DescriptionUI } from "../layout/job-details/DescriptionUI";
 import { isNil } from "lodash";
+import Link from "next/link";
 
 interface ipfsResponse {
   data: {
@@ -25,7 +26,6 @@ export default function ContractDisplay({ contract }: { contract: Contract }) {
   if (isLoading) return <Loading />;
   if (error || isNil(data)) return <ErrorSection title={parseError(error)} />;
   const ipfsData = data.data || { description: "", termsAndConditions: "", poc: "" };
-  console.log("ipfsData", data);
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1">
@@ -101,9 +101,11 @@ export default function ContractDisplay({ contract }: { contract: Contract }) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-end gap-4">
-        <Button>View on Blockchain</Button>
-      </div>
+      <Link href={IPFS_GATEWAY + contract.source} target="_blank" rel="noopener noreferrer">
+        <div className="flex justify-end gap-4">
+          <Button>View Raw</Button>
+        </div>
+      </Link>
     </div>
   );
 }

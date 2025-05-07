@@ -20,7 +20,48 @@ export class Contract extends MeshAdapter {
           mConStr0([deserializeAddress(bParty).pubKeyHash, deserializeAddress(bParty).stakeCredentialHash]),
           0,
           0,
-          amount * 1_000_000,
+          Number(amount * 1_000_000),
+        ]),
+      )
+      .changeAddress(walletAddress)
+      .requiredSignerHash(deserializeAddress(walletAddress).pubKeyHash)
+      .selectUtxosFrom(utxos)
+      .txInCollateral(collateral.input.txHash, collateral.input.outputIndex, collateral.output.amount, collateral.output.address)
+      .setNetwork(appNetwork);
+    return await unsignedTx.complete();
+  }
+
+  async confirm({ txHash }: { txHash: string }) {
+    const { utxos, collateral, walletAddress } = await this.getWalletForTx();
+    const utxosTxHash = await this.fetcher.fetchUTxOs(txHash);
+    const utxo = utxosTxHash.find((utxo: UTxO) => {
+      return utxo.output.plutusData;
+    });
+
+    if (!utxo) {
+      throw new Error("UTxO not found");
+    }
+
+    const datum = deserializeDatum(utxo?.output?.plutusData as string);
+
+    const aPartyAddress = serializeAddressObj(scriptAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes, false), 0);
+    const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[2].fields[0].bytes, datum.fields[2].fields[1].bytes, false), 0);
+    const escrowAmount = datum.fields[4].int;
+    const unsignedTx = this.meshTxBuilder
+      .spendingPlutusScriptV3()
+      .txInInlineDatumPresent()
+      .txIn(utxo.input.txHash, utxo.input.outputIndex, utxo.output.amount, utxo.output.address)
+      .txInScript(this.contractScriptCbor as string)
+      .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
+      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: datum.fields[4].int }])
+      .txOutInlineDatumValue(
+        mConStr0([
+          hexToString(datum.fields[0].bytes),
+          mConStr0([deserializeAddress(aPartyAddress).pubKeyHash, deserializeAddress(aPartyAddress).stakeCredentialHash]),
+          mConStr0([deserializeAddress(bPartyAddress).pubKeyHash, deserializeAddress(bPartyAddress).stakeCredentialHash]),
+          1,
+          0,
+          Number(escrowAmount),
         ]),
       )
       .changeAddress(walletAddress)
