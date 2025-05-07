@@ -17,7 +17,7 @@ model Job {
 
   title       String
   description String? @db.Text
-  reward      Int @default(0)
+  reward      Int     @default(0)
   poc         String
 
   isPublished Boolean @default(false)
@@ -42,6 +42,23 @@ model Job {
   @@index([isPublished, isActive, isArchived, isPrivate])
   @@index([walletAddress, isArchived, isPublished, isActive])
   @@map("Jobs")
+}
+
+model Contract {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  txHash    String   @map("tx_hash")
+  partyA     String  @map("party_a")
+  partyB     String  @map("party_b")
+  source     Json?
+  inProgress Boolean @default(false)
+  inDispute  Boolean @default(false)
+
+  @@index([id])
+  @@index([partyA, partyB])
+  @@index([createdAt, updatedAt])
+  @@map("Contracts")
 }
 
 model User {

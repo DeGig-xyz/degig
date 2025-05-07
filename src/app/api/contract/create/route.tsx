@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     if (!jobId) {
       throw new Error("Job ID is required");
     }
-    
+
     if (!data.partyA || !data.partyB || !data.reward) {
       throw new Error("Missing required fields");
     }
@@ -91,4 +91,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(errorResponse, { status: 500 });
   }
 }
-
