@@ -6,6 +6,7 @@ export class Contract extends MeshAdapter {
   async create({ source, aParty, bParty, amount }: { source: string; aParty: string; bParty: string; amount: number }): Promise<string> {
     const { utxos, collateral, walletAddress } = await this.getWalletForTx();
     const unsignedTx = this.meshTxBuilder
+      .spendingPlutusScriptV3()
       .txOut(this.contractAddress as string, [
         {
           unit: "lovelace",

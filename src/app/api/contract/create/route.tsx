@@ -39,6 +39,9 @@ export async function POST(request: NextRequest) {
     if (uploadResponse.status !== 200) {
       throw new Error("Failed to upload file to IPFS");
     }
+    if (isNil(uploadResponse.data.data.cid)) {
+      throw new Error("Failed to get IPFS CID");
+    }
 
     const wallet = new MeshWallet({
       networkId: 0,
@@ -63,9 +66,8 @@ export async function POST(request: NextRequest) {
     if (isNil(contract)) {
       throw new Error("Contract not found");
     }
-
     const unsignedTx: string = await contract.create({
-      source: uploadResponse.data.IpfsHash,
+      source: uploadResponse.data.data.cid,
       aParty: data.partyA,
       bParty: data.partyB,
       amount: data.reward,

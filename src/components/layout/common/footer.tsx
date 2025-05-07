@@ -1,12 +1,10 @@
-import Link from "next/link";
-
 export function Footer() {
   return (
     <footer className="border-t py-8 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold text-lg mb-4">earn</h3>
+            <h3 className="font-bold text-lg mb-4">degig</h3>
             <p className="text-gray-600 text-sm mb-4">The platform for crypto talent to find high-paying gigs and bounties.</p>
             <div className="flex gap-4">
               <Link href="#" className="text-gray-500 hover:text-purple-600">
@@ -123,10 +121,10 @@ export function Footer() {
               </li>
             </ul>
           </div>
-        </div>
+        </div> */}
 
         <div className="border-t mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-500">© {new Date().getFullYear()} Superteam. All rights reserved.</p>
+          <p className="text-sm text-gray-500">© {new Date().getFullYear()} DeGig. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
             <select className="px-3 py-1 border rounded text-sm bg-white">
               <option>English</option>

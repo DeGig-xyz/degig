@@ -4,12 +4,14 @@ import {
   BlockfrostProvider,
   deserializeAddress,
   deserializeDatum,
+  hexToString,
   IFetcher,
   mConStr0,
   MeshTxBuilder,
   MeshWallet,
   Network,
   PlutusScript,
+  pubKeyAddress,
   scriptAddress,
   serializeAddressObj,
   serializePlutusScript,
@@ -17,6 +19,7 @@ import {
 } from "@meshsdk/core";
 import blueprint from "./plutus.json";
 import { ADMINISTRATOR_WALLET_ADDRESS, appNetworkId } from "@/constants/contract";
+import { Contract } from "@/interface";
 
 export class MeshAdapter {
   protected fetcher: IFetcher;
@@ -108,12 +111,17 @@ export class MeshAdapter {
   public readPlutusData = (plutusData: string) => {
     try {
       const inputDatum = deserializeDatum(plutusData);
-      const seller = serializeAddressObj(deserializeDatum(plutusData).fields[0], this.networkId);
+      const partyA = serializeAddressObj(pubKeyAddress(inputDatum.fields[1].fields[0].bytes, inputDatum.fields[1].fields[1].bytes), this.networkId);
+      const partyB = serializeAddressObj(pubKeyAddress(inputDatum.fields[2].fields[0].bytes, inputDatum.fields[2].fields[1].bytes), this.networkId);
+      const sourceIpfs = hexToString(inputDatum.fields[0].bytes);
       return {
-        seller: seller,
-        price: inputDatum.fields[1].int,
-        assetHex: inputDatum.fields[2].bytes + inputDatum.fields[3].bytes,
-      };
+        source: sourceIpfs,
+        partyA: partyA,
+        partyB: partyB,
+        inprogress: inputDatum.fields[3].int !== 0,
+        indispute: inputDatum.fields[4].int !== 0,
+        amount: inputDatum.fields[5].int / 1_000_000,
+      } as Contract;
     } catch (e) {
       console.error("Error reading plutus data: ", e);
       return null!;

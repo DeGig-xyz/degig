@@ -51,7 +51,7 @@ model Contract {
   txHash    String   @map("tx_hash")
   partyA     String  @map("party_a")
   partyB     String  @map("party_b")
-  source     Json?
+  source     String
   inProgress Boolean @default(false)
   inDispute  Boolean @default(false)
 

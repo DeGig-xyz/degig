@@ -108,7 +108,7 @@ export const MobileNavbar = ({ onWalletOpen }: Props) => {
               <AlignLeft className="h-6 w-6 text-slate-600" />
             </Button>
             <Link href="/" className="flex items-center hover:no-underline">
-              <img className="h-[1.3rem] cursor-pointer object-contain" alt="Superteam Earn" src="/assets/logo.svg" />
+              <img className="h-[1.3rem] cursor-pointer object-contain" alt="DeGig Earn" src="/assets/logo.svg" />
             </Link>
           </div>
 

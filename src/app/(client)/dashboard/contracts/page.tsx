@@ -1,52 +1,24 @@
 "use client";
 
+import { ErrorSection } from "@/components/common/ErrorSection";
+import Loading from "@/components/common/loading";
 import ContractsTable from "@/components/contract-page/table-contract";
-// import { useUserRole } from "@/components/user-role-provider";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useWallet } from "@/hooks/use-wallet";
+import { ApiResponseInterface, Contract } from "@/interface";
+import { get } from "@/lib/axios";
+import { parseError } from "@/utils/parse-error";
+import useSWR from "swr";
 
 export default function ContractsPage() {
-  const contracts = [
-    {
-      id: "CON-2023-042",
-      freelancer: "Jane Smith",
-      title: "Website Redesign",
-      value: "$3,500",
-      status: "In Progress",
-      date: "May 2, 2023",
-    },
-    {
-      id: "CON-2023-039",
-      freelancer: "Alex Johnson",
-      title: "Mobile App Development",
-      value: "$8,000",
-      status: "Pending",
-      date: "Apr 28, 2023",
-    },
-    {
-      id: "CON-2023-036",
-      freelancer: "Maria Garcia",
-      title: "Logo Design",
-      value: "$800",
-      status: "Completed",
-      date: "Apr 20, 2023",
-    },
-    {
-      id: "CON-2023-032",
-      freelancer: "David Lee",
-      title: "Content Writing",
-      value: "$1,200",
-      status: "In Progress",
-      date: "Apr 15, 2023",
-    },
-    {
-      id: "CON-2023-028",
-      freelancer: "Sarah Wilson",
-      title: "SEO Optimization",
-      value: "$2,500",
-      status: "Cancelled",
-      date: "Apr 5, 2023",
-    },
-  ];
+  const { data, error, isLoading } = useSWR<ApiResponseInterface>(`/contract`, get);
+  const { address } = useWallet();
+  if (isLoading) return <Loading />;
+  if (error) return <ErrorSection title={parseError(error)} />;
+
+  const { data: contracts } = data || { data: [] };
+
+  const ownerContracts = contracts.filter((contract: Contract) => contract.partyA === address || contract.partyB === address);
+  // const workerContracts = contracts.filter((contract: Contract) => contract.partyB === address);
 
   return (
     <div className="space-y-6">
@@ -56,18 +28,7 @@ export default function ContractsPage() {
           <p className="text-muted-foreground">Manage and create contracts</p>
         </div>
       </div>
-      <Tabs defaultValue="inprogess">
-        <TabsList>
-          <TabsTrigger value="inprogess">In Progess</TabsTrigger>
-          <TabsTrigger value="done">Done</TabsTrigger>
-        </TabsList>
-        <TabsContent value="inprogess">
-          <ContractsTable contracts={contracts} />
-        </TabsContent>
-        <TabsContent value="done">
-          <ContractsTable contracts={contracts} />
-        </TabsContent>
-      </Tabs>
+      <ContractsTable contracts={ownerContracts} />
     </div>
   );
 }

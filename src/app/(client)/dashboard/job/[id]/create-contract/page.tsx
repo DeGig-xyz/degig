@@ -12,12 +12,14 @@ import { useParams } from "next/navigation";
 import { createContract } from "@/services/contract/create";
 import { ContractFormValues } from "@/components/contract-builder/hooks/contract-builder";
 import ContractBuilderForm from "@/components/contract-builder/Contractbuilder";
+import { appNetwork } from "@/constants/contract";
+import Link from "next/link";
 
 export default function Page() {
   const params = useParams<{ id: string }>();
 
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job/" + params.id, get);
-  const { address } = useWallet();
+  const { address, browserWallet } = useWallet();
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <Loading />;
@@ -29,15 +31,29 @@ export default function Page() {
 
   async function onSubmit(values: ContractFormValues) {
     try {
-      if (!address) {
+      if (isNil(address) || isNil(browserWallet)) {
         throw new Error("Wallet address is required");
       }
-      const res = await createContract({
+      const { tx, message } = await createContract({
         jobId: params.id,
         data: values,
       });
-      toast.success(res, {
+      if (isNil(tx)) {
+        throw new Error(message);
+      }
+      const signedTx = await browserWallet.signTx(tx);
+      const txHash = await browserWallet.submitTx(signedTx);
+      toast.success("Success", {
         description: "Contract created successfully",
+        action: (
+          <Link
+            href={`https://${appNetwork == "mainnet" ? "" : appNetwork + "."}cexplorer.io/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on Explorer
+          </Link>
+        ),
       });
       // window.location.href = "/contracts/";
     } catch (error) {

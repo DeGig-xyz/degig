@@ -14,8 +14,14 @@ export async function createContract({ jobId, data }: { jobId: string; data: Con
       jobId,
       ...data,
     });
-    return response.message;
+    return {
+      tx: response.data,
+      message: response.message,
+    };
   } catch (error) {
-    return parseError(error);
+    return {
+      message: parseError(error),
+      tx: null,
+    };
   }
 }

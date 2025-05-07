@@ -6,7 +6,7 @@ export function ErrorSection({ title, message }: { title?: string; message?: str
       <div className="flex flex-col items-center justify-center">
         <Info size={96} className="text-slate-500" />
         <span className="mt-2 text-lg font-bold text-slate-500">{title || "Something went wrong!"}</span>
-        <span className="mt-2 text-slate-500">{message || "There seems to be an error. Contact support@superteamearn.com to get help"}</span>
+        <span className="mt-2 text-slate-500">{message || "There seems to be an error. Contact support to get help"}</span>
       </div>
     </div>
   );

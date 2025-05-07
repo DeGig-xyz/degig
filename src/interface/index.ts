@@ -14,6 +14,16 @@ export interface Job {
   applicationLink?: string;
 }
 
+export interface Contract {
+  txhash: string;
+  source: string;
+  partyA: string;
+  partyB: string;
+  inprogress: boolean;
+  indispute: boolean;
+  amount: number;
+}
+
 export interface Pagination {
   total: number;
   page: number;
