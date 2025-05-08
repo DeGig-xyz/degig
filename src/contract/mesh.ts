@@ -113,7 +113,6 @@ export class MeshAdapter {
       const inputDatum = deserializeDatum(plutusData);
       const partyA = serializeAddressObj(pubKeyAddress(inputDatum.fields[0].fields[0].bytes, inputDatum.fields[0].fields[1].bytes), this.networkId);
       const partyB = serializeAddressObj(pubKeyAddress(inputDatum.fields[1].fields[0].bytes, inputDatum.fields[1].fields[1].bytes), this.networkId);
-      console.log("inputDatum: ", inputDatum);
       return {
         partyA: partyA,
         partyB: partyB,

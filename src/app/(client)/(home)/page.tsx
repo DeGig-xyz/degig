@@ -1,6 +1,4 @@
 "use client";
-import { ArrowRight, DollarSign, Briefcase } from "lucide-react";
-import Image from "next/image";
 import JobItem from "@/components/homefeed/job-item";
 import { FilterNavigation } from "@/components/homefeed/filter-navigation";
 import { ApiResponseInterface } from "@/interface";
@@ -53,41 +51,6 @@ export default function MainContent() {
           </div>
 
           <div className="space-y-8">
-            {/* Become a Sponsor */}
-            <div className="border rounded-xl p-6 bg-gray-50">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold">Create your first Contract</h3>
-                <ArrowRight className="h-5 w-5 text-gray-400" />
-              </div>
-              <p className="text-gray-600 mb-4">Reach 90,000+ crypto talent from one single dashboard</p>
-              <div className="flex justify-end">
-                <Image src="/3d-car-dashboard-icon.png" alt="Dashboard icon" width={100} height={100} />
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="border rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <DollarSign className="h-5 w-5 text-gray-500" />
-                  <span className="text-xl font-bold">$4,271,040</span>
-                </div>
-                <p className="text-sm text-gray-600">Total Value Earned</p>
-              </div>
-              <div className="border rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Briefcase className="h-5 w-5 text-gray-500" />
-                  <span className="text-xl font-bold">1724</span>
-                </div>
-                <p className="text-sm text-gray-600">Opportunities Listed</p>
-              </div>
-            </div>
-
-            {/* Breakout Banner */}
-            <div className="border rounded-xl overflow-hidden">
-              <Image src="/colorful-hackathon.png" alt="Breakout Hackathon" width={400} height={300} className="w-full" />
-            </div>
-
             {/* How it Works */}
             <div className="border rounded-xl p-6">
               <h3 className="text-lg font-semibold mb-6">HOW IT WORKS</h3>
@@ -150,43 +113,6 @@ export default function MainContent() {
             </div>
 
             {/* Recent Earners */}
-            <div className="border rounded-xl p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-semibold">RECENT EARNERS</h3>
-                <div className="flex items-center gap-1 text-purple-600 text-sm">
-                  <span>Leaderboard</span>
-                  <ArrowRight className="h-4 w-4" />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-200"></div>
-                  <div className="flex-1">
-                    <h4 className="font-medium">Jacob Stanley</h4>
-                    <p className="text-xs text-gray-600">Wrote A Thread about March Madness</p>
-                  </div>
-                  <div className="flex items-center gap-1 text-gray-600">
-                    <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">$</div>
-                    <span className="font-medium">200</span>
-                    <span className="text-sm">ADA</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-200"></div>
-                  <div className="flex-1">
-                    <h4 className="font-medium">Jong-Chan Chung</h4>
-                    <p className="text-xs text-gray-600">[MG5 Apply] Solana Hackathon 2...</p>
-                  </div>
-                  <div className="flex items-center gap-1 text-gray-600">
-                    <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">$</div>
-                    <span className="font-medium">6k</span>
-                    <span className="text-sm">ADA</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

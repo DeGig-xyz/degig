@@ -15,7 +15,6 @@ export default function JobDetailsPage() {
   if (isLoading) return <Loading />;
 
   const { data: initialJob } = data || { data: null };
-  console.log("initialJob", initialJob);
   if (isNil(initialJob)) {
     return <div>Job not found</div>;
   }

@@ -22,7 +22,6 @@ export default function Page() {
   if (error) return <div>failed to load</div>;
   if (isLoading) return <Loading />;
   const { data: initialJob } = data || { data: null };
-  console.log("initialJob", initialJob);
   if (isNil(initialJob) || initialJob.walletAddress !== initialJob?.walletAddress) {
     return <div>Job not found</div>;
   }

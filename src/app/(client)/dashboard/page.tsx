@@ -8,7 +8,7 @@ import { ApiResponseInterface } from "@/interface";
 import { get } from "@/lib/axios";
 import { Job } from "@prisma/client";
 import dayjs from "dayjs";
-import { ChevronLeft, ChevronRight, EllipsisVertical, Info, Pencil, Trash2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import useSWR, { mutate } from "swr";
 import Image from "next/image";
 import { useState } from "react";
@@ -29,7 +29,6 @@ export default function SponsorDashboard() {
   const { data: jobs, pagination } = data || { data: [], pagination: null };
 
   const handleDeleteJob = async (jobId: string) => {
-    console.log(address);
     try {
       if (!address) {
         throw new Error("Wallet address is required");

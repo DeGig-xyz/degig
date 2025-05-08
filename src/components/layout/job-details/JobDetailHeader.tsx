@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+ 
 import { CircleDot } from "lucide-react";
 import React from "react";
 
