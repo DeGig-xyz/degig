@@ -1,4 +1,3 @@
- 
 "use client";
 
 import type React from "react";
@@ -12,7 +11,6 @@ import { Contract } from "@/interface";
 
 export default function ViewDetailButton({ contract }: { contract: Contract }) {
   const [isOpen, setIsOpen] = useState(false);
-  
 
   return (
     <>

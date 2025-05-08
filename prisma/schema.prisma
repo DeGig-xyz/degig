@@ -34,7 +34,7 @@ model Job {
   @@index([walletAddress])
   @@index([isPublished, isPrivate])
   @@index([expriedAt, updatedAt])
-  @@index([title]) 
+  @@index([title])
   @@index([expriedAt(sort: Asc)], map: "Jobs_expriedAt_asc_idx")
   @@index([expriedAt(sort: Desc)], map: "Jobs_expriedAt_desc_idx")
   @@index([isFeatured(sort: Desc)])
@@ -62,21 +62,37 @@ model Contract {
 }
 
 model Dispute {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  txHash      String   @map("tx_hash")
-  partyA      String   @map("party_a")
-  partyB      String   @map("party_b")
-  reason      String
-  description String?  @db.Text
-  source      String
-  status      status
+  id         String           @id @default(uuid())
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  txHash     String           @map("tx_hash")
+  partyA     String           @map("party_a")
+  partyB     String           @map("party_b")
+  reason     String
+  submission String?          @db.Text
+  content    String?          @db.Text
+  status     status
+  messages   DisputeMessage[] @relation("DisputeMessages")
 
   @@index([id])
   @@index([partyA, partyB])
   @@index([createdAt, updatedAt])
   @@map("disputes")
+}
+
+model DisputeMessage {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    String
+  disputeId String
+  dispute   Dispute  @relation(fields: [disputeId], references: [id], name: "DisputeMessages")
+  content   String?  @db.Text
+
+  @@index([id])
+  @@index([disputeId])
+  @@index([createdAt, updatedAt])
+  @@map("dispute_messages")
 }
 
 model User {

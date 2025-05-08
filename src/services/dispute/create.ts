@@ -25,16 +25,13 @@ export async function createDisputeTx({ txHash, walletAddress }: { txHash: strin
   }
 }
 
-export async function createDisputeDB({ contract, walletAddress }: { contract: Contract; walletAddress: string }) {
+export async function createDisputeDB({ contract, reason }: { contract: Contract; reason: string }) {
   try {
     if (isNil(contract)) {
       throw new Error("txhash is required");
     }
-    if (isNil(walletAddress)) {
-      throw new Error("walletAddress data is required");
-    }
 
-    const response = await post("/dispute/create", { contract, walletAddress });
+    const response = await post("/dispute/create", { contract, reason });
     return {
       dísputeId: response.data,
       result: true,

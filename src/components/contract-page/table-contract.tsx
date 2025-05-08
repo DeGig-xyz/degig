@@ -12,6 +12,7 @@ import ViewDetailButton from "./ViewDetailButton";
 
 import ViewSubmissionButton from "./ViewSubmissionButton";
 import ConfirmContractButton from "./action/confirm-contract";
+import DisputeContractButton from "./action/dispute-contract";
 
 export default function ContractsTable({
   contracts,
@@ -85,9 +86,7 @@ export default function ContractsTable({
                     </div>
                   ) : contract.inprogress == true && address == contract.partyA ? (
                     <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm">
-                        Dispute
-                      </Button>
+                      <DisputeContractButton contract={contract} />
                     </div>
                   ) : (
                     contract.inprogress == true &&
