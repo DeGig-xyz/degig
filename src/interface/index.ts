@@ -16,9 +16,10 @@ export interface Job {
 
 export interface Contract {
   txhash: string;
-  source: string;
   partyA: string;
   partyB: string;
+  content: string;
+  submission: string;
   inprogress: boolean;
   indispute: boolean;
   amount: number;

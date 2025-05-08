@@ -8,6 +8,7 @@ import useSWR from "swr";
 import Loading from "@/components/common/loading";
 import { get } from "@/lib/axios";
 import { Job } from "@prisma/client";
+import { shortenString } from "@/utils/shorten-string";
 
 export default function MainContent() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job", get);
@@ -38,12 +39,12 @@ export default function MainContent() {
                     key={job.id}
                     id={job.id}
                     title={job.title}
-                    organization={"Cardano Foundation"}
-                    organizationLogo={`https://res.cloudinary.com/dgvnuwspr/image/upload/c_scale,w_128,h_128,f_auto/v1735886811/htpwcjtol1xluk8r6ngb.png`}
+                    organization={shortenString(job.walletAddress)}
+                    organizationLogo={`/assets/logo.png`}
                     amount={job.reward ?? 0}
                     currency="ADA"
                     currencyLogo="https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png"
-                    dueInDays={10}
+                    dueInDays={job.expriedAt ? Math.ceil((new Date(job.expriedAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : 0}
                     commentCount={0}
                   />
                 ))}
@@ -55,7 +56,7 @@ export default function MainContent() {
             {/* Become a Sponsor */}
             <div className="border rounded-xl p-6 bg-gray-50">
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold">Become a Sponsor</h3>
+                <h3 className="text-lg font-semibold">Create your first Contract</h3>
                 <ArrowRight className="h-5 w-5 text-gray-400" />
               </div>
               <p className="text-gray-600 mb-4">Reach 90,000+ crypto talent from one single dashboard</p>
@@ -105,11 +106,10 @@ export default function MainContent() {
                         />
                       </svg>
                     </div>
-                    <div className="absolute top-10 bottom-0 left-1/2 w-0.5 bg-gray-200 -translate-x-1/2"></div>
                   </div>
                   <div>
-                    <h4 className="font-medium">Create your Profile</h4>
-                    <p className="text-sm text-gray-600">by telling us about yourself</p>
+                    <h4 className="font-medium">Post & Escrow</h4>
+                    <p className="text-sm text-gray-600">Employers post projects, matches freelancers,Smart contract locks funds (ADA).</p>
                   </div>
                 </div>
 
@@ -120,11 +120,10 @@ export default function MainContent() {
                         <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
-                    <div className="absolute top-10 bottom-0 left-1/2 w-0.5 bg-gray-200 -translate-x-1/2"></div>
                   </div>
                   <div>
-                    <h4 className="font-medium">Participate in Bounties & Projects</h4>
-                    <p className="text-sm text-gray-600">to build proof of work</p>
+                    <h4 className="font-medium">Track & Payment</h4>
+                    <p className="text-sm text-gray-600">Milestones tracked transparently on blockchain, funds released upon completion, 3-5% fee.</p>
                   </div>
                 </div>
 
@@ -143,8 +142,8 @@ export default function MainContent() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium">Get Paid for Your Work</h4>
-                    <p className="text-sm text-gray-600">in global standards</p>
+                    <h4 className="font-medium">Fair Dispute</h4>
+                    <p className="text-sm text-gray-600">Three independent arbitrators vote to resolve disputes, 1% fee, ensuring transparency.</p>
                   </div>
                 </div>
               </div>

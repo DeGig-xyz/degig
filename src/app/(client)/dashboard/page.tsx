@@ -16,6 +16,7 @@ import Link from "next/link";
 import { deleteJob } from "@/services/job/delete";
 import { toast } from "sonner";
 import { parseError } from "@/utils/parse-error";
+import { shortenString } from "@/utils/shorten-string";
 
 export default function SponsorDashboard() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -64,43 +65,11 @@ export default function SponsorDashboard() {
               <div>
                 <div className="flex items-center">
                   <div className="flex w-min items-center gap-1">
-                    <p className="text-lg font-semibold whitespace-nowrap text-slate-900">tidvn</p>
+                    <p className="text-lg font-semibold whitespace-nowrap text-slate-900">{shortenString(address || "")}</p>
                   </div>
-                  <a className="ml-2 text-slate-500 hover:text-slate-800" href="#">
-                    <Pencil className="h-4 w-4 text-slate-400" />
-                  </a>
                 </div>
-                <p className="-mt-0.5 text-[1.05rem] font-normal whitespace-nowrap text-slate-500">Sponsor since 2023</p>
               </div>
             </div>
-            <div className="h-14 w-0.5 border-r border-slate-200"></div>
-            <button type="button" className="cursor-pointer">
-              <div className="cursor-pointer">
-                <div className="flex items-center">
-                  <p className="mr-0.5 text-base font-normal whitespace-nowrap text-slate-500">Rewarded</p>
-                  <Info className="h-3 w-3 text-slate-400" />
-                </div>
-                <p className="text-left text-lg font-semibold text-slate-900">$0</p>
-              </div>
-            </button>
-            <button type="button" className="cursor-pointer">
-              <div className="cursor-pointer">
-                <div className="flex items-center">
-                  <p className="mr-0.5 text-base font-normal whitespace-nowrap text-slate-500">Jobs</p>
-                  <Info className="h-3 w-3 text-slate-400" />
-                </div>
-                <p className="text-left text-lg font-semibold text-slate-900">2</p>
-              </div>
-            </button>
-            <button type="button" className="cursor-pointer">
-              <div className="cursor-pointer">
-                <div className="flex items-center">
-                  <p className="mr-0.5 text-base font-normal whitespace-nowrap text-slate-500">Submissions</p>
-                  <Info className="h-3 w-3 text-slate-400" />
-                </div>
-                <p className="text-left text-lg font-semibold text-slate-900">0</p>
-              </div>
-            </button>
           </div>
         </div>
       </div>

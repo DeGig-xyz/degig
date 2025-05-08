@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { appNetwork } from "@/constants/contract";
 import { parseError } from "@/utils/parse-error";
+import ViewSubmissionButton from "./ViewSubmissionButton";
 
 export default function ContractsTable({
   contracts,
@@ -101,8 +102,9 @@ export default function ContractsTable({
                     )}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="flex items-center gap-2">
                   <ViewDetailButton contract={contract} />
+                  <ViewSubmissionButton contract={contract} />
                 </TableCell>
                 <TableCell className="text-right">
                   {contract.inprogress != true && address == contract.partyA ? (

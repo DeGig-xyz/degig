@@ -18,14 +18,13 @@ export default function ContractsPage() {
   const { data: contracts } = data || { data: [] };
 
   const ownerContracts = contracts.filter((contract: Contract) => contract.partyA === address || contract.partyB === address);
-  // const workerContracts = contracts.filter((contract: Contract) => contract.partyB === address);
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Contracts</h2>
-          <p className="text-muted-foreground">Manage and create contracts</p>
+          <p className="text-muted-foreground">Manage contracts</p>
         </div>
       </div>
       <ContractsTable contracts={ownerContracts} />

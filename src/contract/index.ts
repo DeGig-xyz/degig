@@ -1,9 +1,9 @@
-import { deserializeAddress, deserializeDatum, hexToString, mConStr0, scriptAddress, serializeAddressObj, UTxO } from "@meshsdk/core";
+import { deserializeAddress, deserializeDatum, hexToString, mConStr0, pubKeyAddress, scriptAddress, serializeAddressObj, UTxO } from "@meshsdk/core";
 import { MeshAdapter } from "./mesh";
 import { ADMINISTRATOR_WALLET_ADDRESS, appNetwork } from "@/constants/contract";
 
 export class Contract extends MeshAdapter {
-  async create({ source, aParty, bParty, amount }: { source: string; aParty: string; bParty: string; amount: number }): Promise<string> {
+  async create({ content, aParty, bParty, amount }: { content: string; aParty: string; bParty: string; amount: number }): Promise<string> {
     const { utxos, collateral, walletAddress } = await this.getWalletForTx();
     const unsignedTx = this.meshTxBuilder
       .spendingPlutusScriptV3()
@@ -15,10 +15,11 @@ export class Contract extends MeshAdapter {
       ])
       .txOutInlineDatumValue(
         mConStr0([
-          source,
           mConStr0([deserializeAddress(aParty).pubKeyHash, deserializeAddress(aParty).stakeCredentialHash]),
           mConStr0([deserializeAddress(bParty).pubKeyHash, deserializeAddress(bParty).stakeCredentialHash]),
-          0,
+          content,
+          "",
+          1,
           0,
           Number(amount * 1_000_000),
         ]),
@@ -44,24 +45,25 @@ export class Contract extends MeshAdapter {
 
     const datum = deserializeDatum(utxo?.output?.plutusData as string);
 
-    const aPartyAddress = serializeAddressObj(scriptAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes, false), 0);
-    const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[2].fields[0].bytes, datum.fields[2].fields[1].bytes, false), 0);
-    const escrowAmount = datum.fields[4].int;
+    const aParty = serializeAddressObj(pubKeyAddress(datum.fields[0].fields[0].bytes, datum.fields[0].fields[1].bytes), this.networkId);
+    const bParty = serializeAddressObj(pubKeyAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes), this.networkId);
+
     const unsignedTx = this.meshTxBuilder
       .spendingPlutusScriptV3()
-      .txInInlineDatumPresent()
       .txIn(utxo.input.txHash, utxo.input.outputIndex, utxo.output.amount, utxo.output.address)
+      .txInInlineDatumPresent()
+      .txInRedeemerValue(mConStr0([]))
       .txInScript(this.contractScriptCbor as string)
-      .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
-      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: datum.fields[4].int }])
+      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: datum.fields[6].int }])
       .txOutInlineDatumValue(
         mConStr0([
-          hexToString(datum.fields[0].bytes),
-          mConStr0([deserializeAddress(aPartyAddress).pubKeyHash, deserializeAddress(aPartyAddress).stakeCredentialHash]),
-          mConStr0([deserializeAddress(bPartyAddress).pubKeyHash, deserializeAddress(bPartyAddress).stakeCredentialHash]),
+          mConStr0([deserializeAddress(aParty).pubKeyHash, deserializeAddress(aParty).stakeCredentialHash]),
+          mConStr0([deserializeAddress(bParty).pubKeyHash, deserializeAddress(bParty).stakeCredentialHash]),
+          hexToString(datum.fields[2].bytes),
+          hexToString(datum.fields[3].bytes),
           1,
           0,
-          Number(escrowAmount),
+          datum.fields[6].int,
         ]),
       )
       .changeAddress(walletAddress)
@@ -89,7 +91,7 @@ export class Contract extends MeshAdapter {
 
     const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[2].fields[0].bytes, datum.fields[2].fields[1].bytes, false), 0);
 
-    const escrowAmount = datum.fields[4].int;
+    const escrowAmount = datum.fields[5].int;
 
     const unsignedTx = this.meshTxBuilder
       .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
@@ -118,14 +120,14 @@ export class Contract extends MeshAdapter {
 
     const aPartyAddress = serializeAddressObj(scriptAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes, false), 0);
     const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[2].fields[0].bytes, datum.fields[2].fields[1].bytes, false), 0);
-    const escrowAmount = datum.fields[4].int;
+    const escrowAmount = datum.fields[5].int;
     const unsignedTx = this.meshTxBuilder
       .spendingPlutusScriptV3()
       .txInInlineDatumPresent()
       .txIn(utxo.input.txHash, utxo.input.outputIndex, utxo.output.amount, utxo.output.address)
       .txInScript(this.contractScriptCbor as string)
       .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
-      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: datum.fields[4].int }])
+      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: datum.fields[5].int }])
       .txOutInlineDatumValue(
         mConStr0([
           hexToString(datum.fields[0].bytes),
@@ -160,7 +162,7 @@ export class Contract extends MeshAdapter {
 
     const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[2].fields[0].bytes, datum.fields[2].fields[1].bytes, false), 0);
 
-    const escrowAmount = datum.fields[4].int;
+    const escrowAmount = datum.fields[5].int;
     const unsignedTx = this.meshTxBuilder
       .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
       .txOut(bPartyAddress as string, [{ unit: "lovelace", quantity: String(Number(escrowAmount * proportion)) }])

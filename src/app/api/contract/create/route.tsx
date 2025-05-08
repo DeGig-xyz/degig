@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       throw new Error("Contract not found");
     }
     const unsignedTx: string = await contract.create({
-      source: uploadResponse.data.data.cid,
+      content: uploadResponse.data.data.cid,
       aParty: data.partyA,
       bParty: data.partyB,
       amount: data.reward,

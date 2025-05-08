@@ -22,7 +22,7 @@ interface ipfsResponse {
 }
 
 export default function ContractDisplay({ contract }: { contract: Contract }) {
-  const { data, error, isLoading } = useSWR<ipfsResponse>(IPFS_GATEWAY + contract.source, axios.get);
+  const { data, error, isLoading } = useSWR<ipfsResponse>(IPFS_GATEWAY + contract.content, axios.get);
   if (isLoading) return <Loading />;
   if (error || isNil(data)) return <ErrorSection title={parseError(error)} />;
   const ipfsData = data.data || { description: "", termsAndConditions: "", poc: "" };
@@ -101,7 +101,7 @@ export default function ContractDisplay({ contract }: { contract: Contract }) {
       </div>
 
       {/* Action Buttons */}
-      <Link href={IPFS_GATEWAY + contract.source} target="_blank" rel="noopener noreferrer">
+      <Link href={IPFS_GATEWAY + contract.content} target="_blank" rel="noopener noreferrer">
         <div className="flex justify-end gap-4">
           <Button>View Raw</Button>
         </div>

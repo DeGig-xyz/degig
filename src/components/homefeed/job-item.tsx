@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MessageSquare, NotebookText } from "lucide-react";
+import { NotebookText } from "lucide-react";
 
 import { cn } from "@/utils";
 
@@ -27,7 +27,6 @@ export default function JobItem({
   currency,
   currencyLogo,
   dueInDays,
-  commentCount,
   isActive = true,
   className,
 }: JobItemProps) {
@@ -70,14 +69,6 @@ export default function JobItem({
               {/* Due date */}
               <div className="flex items-center gap-1">
                 <p className="text-[10px] whitespace-nowrap text-gray-500 sm:text-xs">Due in {dueInDays}d</p>
-              </div>
-
-              <p className="hidden text-[10px] text-slate-300 sm:flex sm:text-xs md:text-sm">|</p>
-
-              {/* Comment count */}
-              <div className="hidden items-center gap-0.5 sm:flex text-xs text-gray-500 mx-1 sm:mx-0">
-                <MessageSquare className="w-[0.8rem] text-slate-500" />
-                <p>{commentCount}</p>
               </div>
 
               {/* Status indicator */}

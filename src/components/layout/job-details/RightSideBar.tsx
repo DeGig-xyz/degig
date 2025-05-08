@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { TriangleAlert } from "lucide-react";
 import { ExtraInfoSection } from "./ExtraInfoSection";
 import { JobInterface } from "@/interface";
@@ -13,37 +14,24 @@ export function RightSideBar({ job, skills }: { job: JobInterface; skills?: Pare
     <div className="h-full w-full md:w-auto">
       <div className="flex w-full flex-col gap-2 pt-4">
         <div className="flex w-full flex-col justify-center rounded-xl bg-white">
-          <div className="flex w-full flex-col justify-between px-1 pb-4">
-            <div className="w-full">
-              <table className="w-full">
-                <tbody>
-                  <tr className="w-full">
-                    <td className="w-full p-0" colSpan={3}>
-                      <div className="flex items-center gap-2">
-                        <img className="h-8 w-8 rounded-full" alt="token icon" src="https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png" />
-                        <div className={"flex text-lg font-semibold text-slate-700 md:text-xl"} style={{ width: "7rem" }}>
-                          <span className="ml-auto">
-                            {"₳ "}
-                            {formatNumberWithSuffix(job.reward!, 2, true)}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div className="flex w-full items-center justify-between px-1 py-4">
+            {/* Token and reward information */}
+            <div className="flex items-center gap-2">
+              <img className="h-8 w-8 rounded-full" alt="token icon" src="https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png" />
+              <div className="flex flex-col items-start">
+                <p className="text-lg font-bold text-black md:text-xl">
+                  {formatNumberWithSuffix(job?.reward || 0, 2, true)} {" ₳ "}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="w-full border-b border-slate-100" />
-          <div className="flex w-full justify-between py-0">
-            <div className="flex flex-col items-start justify-center py-3">
-              <div className="flex items-start justify-center gap-1">
-                <ExternalImage className="mt-1 w-[1.4rem]" alt={"suit case"} src={"/icons/purple-timer.svg"} />
-                <div className="flex flex-col items-start">
-                  <p className="text-lg font-medium text-black md:text-xl">
-                    <Countdown date={job.expriedAt ?? Date.now()} renderer={CountDownRenderer} zeroPadDays={1} />
-                  </p>
-                </div>
+
+            {/* Countdown timer */}
+            <div className="flex items-center gap-2">
+              <ExternalImage className="w-[1.4rem]" alt="suit case" src="/icons/purple-timer.svg" />
+              <div className="flex flex-col items-start">
+                <p className="text-lg font-medium text-black md:text-xl">
+                  <Countdown date={job?.expriedAt ?? Date.now()} renderer={CountDownRenderer} zeroPadDays={1} />
+                </p>
               </div>
             </div>
           </div>

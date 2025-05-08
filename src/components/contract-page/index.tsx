@@ -75,10 +75,15 @@ export function DashboardLayout({ children, isCollapsible = false }: { children:
   const LinkItems = [
     { name: "Home", link: "/dashboard", icon: null! },
     {
-      name: "Contracts",
+      name: "Your Contracts",
       link: "/dashboard/contracts",
       icon: null!,
     },
+    // {
+    //   name: "Submission",
+    //   link: "/dashboard/work",
+    //   icon: Users,
+    // },
     {
       name: "Disputes",
       link: "/dashboard/disputes",

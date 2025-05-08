@@ -111,16 +111,17 @@ export class MeshAdapter {
   public readPlutusData = (plutusData: string) => {
     try {
       const inputDatum = deserializeDatum(plutusData);
-      const partyA = serializeAddressObj(pubKeyAddress(inputDatum.fields[1].fields[0].bytes, inputDatum.fields[1].fields[1].bytes), this.networkId);
-      const partyB = serializeAddressObj(pubKeyAddress(inputDatum.fields[2].fields[0].bytes, inputDatum.fields[2].fields[1].bytes), this.networkId);
-      const sourceIpfs = hexToString(inputDatum.fields[0].bytes);
+      const partyA = serializeAddressObj(pubKeyAddress(inputDatum.fields[0].fields[0].bytes, inputDatum.fields[0].fields[1].bytes), this.networkId);
+      const partyB = serializeAddressObj(pubKeyAddress(inputDatum.fields[1].fields[0].bytes, inputDatum.fields[1].fields[1].bytes), this.networkId);
+      console.log("inputDatum: ", inputDatum);
       return {
-        source: sourceIpfs,
         partyA: partyA,
         partyB: partyB,
-        inprogress: inputDatum.fields[3].int !== 0,
-        indispute: inputDatum.fields[4].int !== 0,
-        amount: inputDatum.fields[5].int / 1_000_000,
+        content: hexToString(inputDatum.fields[2].bytes),
+        submission: hexToString(inputDatum.fields[3].bytes),
+        inprogress: inputDatum.fields[4].int !== 0,
+        indispute: inputDatum.fields[5].int !== 0,
+        amount: inputDatum.fields[6].int / 1_000_000,
       } as Contract;
     } catch (e) {
       console.error("Error reading plutus data: ", e);
