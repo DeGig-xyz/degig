@@ -122,9 +122,8 @@ export class MeshAdapter {
         indispute: inputDatum.fields[5].int !== 0,
         amount: inputDatum.fields[6].int / 1_000_000,
       } as Contract;
-    } catch (e) {
-      console.error("Error reading plutus data: ", e);
-      return null!;
+    } catch {
+      return null;
     }
   };
 

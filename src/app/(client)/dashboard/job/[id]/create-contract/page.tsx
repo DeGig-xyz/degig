@@ -14,6 +14,7 @@ import { ContractFormValues } from "@/components/contract-builder/hooks/contract
 import ContractBuilderForm from "@/components/contract-builder/Contractbuilder";
 import { appNetwork } from "@/constants/contract";
 import Link from "next/link";
+import { ErrorSection } from "@/components/common/ErrorSection";
 
 export default function Page() {
   const params = useParams<{ id: string }>();
@@ -21,7 +22,7 @@ export default function Page() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job/" + params.id, get);
   const { address, browserWallet } = useWallet();
 
-  if (error) return <div>failed to load</div>;
+ if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: initialJob } = data || { data: null };
 

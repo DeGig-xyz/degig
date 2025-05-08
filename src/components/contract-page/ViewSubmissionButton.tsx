@@ -1,10 +1,9 @@
- 
 "use client";
 
 import type React from "react";
 
 import { useState } from "react";
-import {  UploadCloudIcon } from "lucide-react";
+import { UploadCloudIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Contract } from "@/interface";
@@ -18,7 +17,7 @@ export default function ViewSubmissionButton({ contract }: { contract: Contract 
   if (isEmpty(submission) || isNil(submission)) {
     return null;
   }
-  
+
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setIsOpen(true)}>

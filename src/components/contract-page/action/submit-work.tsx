@@ -1,4 +1,3 @@
- 
 "use client";
 
 import type React from "react";
@@ -12,7 +11,6 @@ import { DialogContent } from "@radix-ui/react-dialog";
 export default function ConfirmContractButton({ txHash }: { txHash: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setIsOpen(true)}>
@@ -21,9 +19,7 @@ export default function ConfirmContractButton({ txHash }: { txHash: string }) {
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-full sm:max-w-[80vw] w-screen h-screen sm:h-[80vh] p-6 flex flex-col overflow-y-auto">
-          <div className="pt-2">
-            {/* <SubmissionDisplay contract={contract} /> */}
-          </div>
+          <div className="pt-2">{/* <SubmissionDisplay contract={contract} /> */}</div>
         </DialogContent>
       </Dialog>
     </>

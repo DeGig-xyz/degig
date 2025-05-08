@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
 import { updateJob } from "@/services/job/update";
+import { ErrorSection } from "@/components/common/ErrorSection";
 
 export default function Page() {
   const params = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ export default function Page() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job/" + params.id, get);
   const { address } = useWallet();
 
-  if (error) return <div>failed to load</div>;
+ if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: initialJob } = data || { data: null };
   if (isNil(initialJob) || initialJob.walletAddress !== initialJob?.walletAddress) {

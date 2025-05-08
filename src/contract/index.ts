@@ -63,7 +63,7 @@ export class Contract extends MeshAdapter {
           hexToString(datum.fields[3].bytes),
           1,
           0,
-          datum.fields[6].int,
+          Number(datum.fields[6].int),
         ]),
       )
       .changeAddress(walletAddress)

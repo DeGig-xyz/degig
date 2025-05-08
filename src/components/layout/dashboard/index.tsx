@@ -81,7 +81,7 @@ export function DashboardLayout({ children, isCollapsible = false }: { children:
     },
     {
       name: "Disputes",
-      link: "/dashboard/disputes",
+      link: "/dashboard/dispute",
       icon: MessageSquare,
     },
   ];
