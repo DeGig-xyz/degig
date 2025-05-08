@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock, MessageSquare, Plus, Users } from "lucide-react";
+import { Lock, MessageSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useState } from "react";

@@ -1,13 +1,13 @@
 "use client";
 
-import { Lock, MessageSquare, Plus, Users } from "lucide-react";
+import { Lock, MessageSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils";
-import { DefaultLayout } from "../default";
+import { DefaultLayout } from "../layout/default";
 
 interface NavItemProps {
   children: ReactNode;
