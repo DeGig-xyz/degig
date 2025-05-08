@@ -1,9 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertCircle, CheckCircle2, Clock, FileText, MessageSquare } from "lucide-react";
 
@@ -20,45 +18,7 @@ export default function DisputesPage() {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Disputes</CardTitle>
-        </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-            <div className="flex w-full max-w-sm items-center space-x-2">
-              <Input
-                type="search"
-                placeholder="Search disputes..."
-                className="w-full"
-                // prefix={<Search className="h-4 w-4 text-muted-foreground" />}
-              />
-            </div>
-            <div className="flex flex-col gap-2 sm:flex-row">
-              <Select defaultValue="all">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="open">Open</SelectItem>
-                  <SelectItem value="in-review">In Review</SelectItem>
-                  <SelectItem value="resolved">Resolved</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select defaultValue="newest">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest First</SelectItem>
-                  <SelectItem value="oldest">Oldest First</SelectItem>
-                  <SelectItem value="priority">Priority</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -75,7 +35,6 @@ export default function DisputesPage() {
                  <SupportDisputesTable />
               </TableBody>
             </Table>
-          </div>
         </CardContent>
       </Card>
     </div>
