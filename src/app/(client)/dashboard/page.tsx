@@ -17,6 +17,7 @@ import { deleteJob } from "@/services/job/delete";
 import { toast } from "sonner";
 import { parseError } from "@/utils/parse-error";
 import { shortenString } from "@/utils/shorten-string";
+import { ErrorSection } from "@/components/common/ErrorSection";
 
 export default function SponsorDashboard() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -24,7 +25,7 @@ export default function SponsorDashboard() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>(`/job?page=${currentPage + 1}&limit=${jobsPerPage}`, get);
   const { walletIcon, address } = useWallet();
 
-  if (error) return <div>failed to load</div>;
+ if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: jobs, pagination } = data || { data: [], pagination: null };
 

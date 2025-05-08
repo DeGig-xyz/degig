@@ -3,10 +3,10 @@ import prisma from "@/lib/prisma";
 import { ApiResponseInterface } from "@/interface";
 import { parseError } from "@/utils/parse-error";
 
-export async function GET({ params }: { params: Promise<{ id: string }> }) {
-  const {id } = await params;
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
-
+    const id = params.id;
     const dispute = await prisma.dispute.findUnique({
       where: { id },
       include: {
@@ -24,6 +24,7 @@ export async function GET({ params }: { params: Promise<{ id: string }> }) {
     };
     return NextResponse.json(response);
   } catch (error) {
+    console.error("Error fetching dispute:", error);
     const response: ApiResponseInterface = {
       statusCode: 500,
       message: parseError(error),
@@ -35,25 +36,25 @@ export async function GET({ params }: { params: Promise<{ id: string }> }) {
 
 export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = await props.params;
+    const params = await props.params;
+    const id = params.id;
     const { walletAddress, content } = await request.json();
 
-    const dispute = await prisma.disputeMessage.create({
+    const disputeMessage = await prisma.disputeMessage.create({
       data: {
         disputeId: id,
         author: walletAddress,
         content,
       },
-      
     });
 
-    if (!dispute) {
+    if (!disputeMessage) {
       throw new Error("Job not found");
     }
     const response: ApiResponseInterface = {
       statusCode: 200,
       message: "dispute fetched successfully",
-      data: dispute,
+      data: disputeMessage,
     };
     return NextResponse.json(response);
   } catch (error) {

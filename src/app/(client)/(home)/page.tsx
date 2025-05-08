@@ -7,10 +7,12 @@ import Loading from "@/components/common/loading";
 import { get } from "@/lib/axios";
 import { Job } from "@prisma/client";
 import { shortenString } from "@/utils/shorten-string";
+import { ErrorSection } from "@/components/common/ErrorSection";
+import { parseError } from "@/utils/parse-error";
 
 export default function MainContent() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job", get);
-  if (error) return <div>failed to load</div>;
+ if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: jobs } = data || { data: [] };
   return (

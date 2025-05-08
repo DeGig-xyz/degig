@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Jobs" ADD COLUMN     "reward" INTEGER NOT NULL DEFAULT 0;
