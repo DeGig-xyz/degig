@@ -54,7 +54,7 @@ export class Contract extends MeshAdapter {
       .txInInlineDatumPresent()
       .txInRedeemerValue(mConStr0([]))
       .txInScript(this.contractScriptCbor as string)
-      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: datum.fields[6].int }])
+      .txOut(this.contractAddress as string, [{ unit: "lovelace", quantity: `${datum.fields[6].int}` }])
       .txOutInlineDatumValue(
         mConStr0([
           mConStr0([deserializeAddress(aParty).pubKeyHash, deserializeAddress(aParty).stakeCredentialHash]),
@@ -63,7 +63,7 @@ export class Contract extends MeshAdapter {
           hexToString(datum.fields[3].bytes),
           1,
           0,
-          datum.fields[6].int,
+          Number(datum.fields[6].int),
         ]),
       )
       .changeAddress(walletAddress)

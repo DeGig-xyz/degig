@@ -34,31 +34,49 @@ model Job {
   @@index([walletAddress])
   @@index([isPublished, isPrivate])
   @@index([expriedAt, updatedAt])
-  @@index([title])
+  @@index([title]) 
   @@index([expriedAt(sort: Asc)], map: "Jobs_expriedAt_asc_idx")
   @@index([expriedAt(sort: Desc)], map: "Jobs_expriedAt_desc_idx")
   @@index([isFeatured(sort: Desc)])
   @@index([isPublished, isActive, isArchived])
   @@index([isPublished, isActive, isArchived, isPrivate])
   @@index([walletAddress, isArchived, isPublished, isActive])
-  @@map("Jobs")
+  @@map("jobs")
 }
 
 model Contract {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  txHash    String   @map("tx_hash")
-  partyA     String  @map("party_a")
-  partyB     String  @map("party_b")
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  txHash     String   @map("tx_hash")
+  partyA     String   @map("party_a")
+  partyB     String   @map("party_b")
   source     String
-  inProgress Boolean @default(false)
-  inDispute  Boolean @default(false)
+  inProgress Boolean  @default(false)
+  inDispute  Boolean  @default(false)
 
   @@index([id])
   @@index([partyA, partyB])
   @@index([createdAt, updatedAt])
-  @@map("Contracts")
+  @@map("contracts")
+}
+
+model Dispute {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  txHash      String   @map("tx_hash")
+  partyA      String   @map("party_a")
+  partyB      String   @map("party_b")
+  reason      String
+  description String?  @db.Text
+  source      String
+  status      status
+
+  @@index([id])
+  @@index([partyA, partyB])
+  @@index([createdAt, updatedAt])
+  @@map("disputes")
 }
 
 model User {
@@ -99,6 +117,7 @@ model User {
   @@index([firstName])
   @@index([lastName])
   @@index([location])
+  @@map("users")
 }
 
 model PoW {
@@ -130,6 +149,12 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum dispute_status {
+  OPEN
+  REVIEW
+  RESOLVED
 }
 
 enum status {
