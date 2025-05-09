@@ -40,11 +40,11 @@ export default function DisputeContractButton({ contract }: { contract: Contract
       }
 
       toast.success(msg, {
-        description: "Dispute created successfully"
+        description: "Dispute created successfully",
       });
       window.location.href = "/dashboard/dispute/" + dísputeId;
     } catch (error) {
-      toast.warning("Error creating job", {
+      toast.warning("Error ", {
         description: parseError(error),
       });
     }

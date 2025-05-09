@@ -38,7 +38,7 @@ export default function JobBuilderForm({
                         </FormLabel>
                         <div className="flex w-full rounded-md border">
                           <FormControl>
-                            <Input className="mt-0 border-none focus-visible:ring-0" placeholder="Write a Deep Dive on IBRL" {...field} />
+                            <Input className="mt-0 border-none focus-visible:ring-0" {...field} />
                           </FormControl>
                         </div>
                         <div className="flex items-center justify-between gap-4">

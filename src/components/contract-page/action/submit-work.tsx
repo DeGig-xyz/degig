@@ -46,7 +46,7 @@ export default function SubmitWorkButton({ contract }: { contract: Contract }) {
       });
       // window.location.href = "/contracts/";
     } catch (error) {
-      toast.warning("Error creating job", {
+      toast.warning("Error ", {
         description: parseError(error),
       });
     }

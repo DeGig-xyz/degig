@@ -40,7 +40,7 @@ export default function SponsorDashboard() {
         description: "Job created successfully",
       });
     } catch (error) {
-      toast.warning("Error creating job", {
+      toast.warning("Error Delete Job", {
         description: parseError(error),
       });
     }

@@ -24,7 +24,7 @@ export default function Page() {
       });
       window.location.href = "/dashboard";
     } catch (error) {
-      toast.warning("Error creating job", {
+      toast.warning("Error ", {
         description: parseError(error),
       });
     }

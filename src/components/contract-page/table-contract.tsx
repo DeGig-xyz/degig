@@ -14,6 +14,7 @@ import ViewSubmissionButton from "./ViewSubmissionButton";
 import ConfirmContractButton from "./action/confirm-contract";
 import DisputeContractButton from "./action/dispute-contract";
 import SubmitWorkButton from "./action/submit-work";
+import PayContractButton from "./action/pay-contract";
 
 export default function ContractsTable({
   contracts,
@@ -82,6 +83,8 @@ export default function ContractsTable({
                       </Button>
                     ) : contract.inprogress != true && address == contract.partyB ? (
                       <ConfirmContractButton txHash={contract.txhash} />
+                    ) : contract.inprogress == true && address == contract.partyA ? (
+                      <PayContractButton txHash={contract.txhash} />
                     ) : (
                       contract.inprogress == true && address == contract.partyB && <SubmitWorkButton contract={contract} />
                     )}

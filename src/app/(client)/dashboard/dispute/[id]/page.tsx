@@ -19,6 +19,8 @@ import { shortenString } from "@/utils/shorten-string";
 import { ExternalLink, X } from "lucide-react";
 import CopyButton from "@/components/common/copy-button";
 import DecisionButton from "@/components/dispute-page/DecisionButton";
+import ViewDetailButton from "@/components/contract-page/ViewDetailButton";
+import ViewSubmissionButton from "@/components/contract-page/ViewSubmissionButton";
 
 export default function ChatInterface() {
   const params = useParams<{ id: string }>();
@@ -152,25 +154,19 @@ export default function ChatInterface() {
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="flex items-center mt-1">
-                    <Button size="sm" className="rounded bg-blue-500">
-                      View Content
-                    </Button>
+                    <ViewDetailButton contract={dispute} />
                   </div>
                 </div>
 
                 <div className="flex-1">
                   <div className="flex items-center mt-1">
-                    <Button size="sm" className="rounded bg-cyan-500">
-                      View Submission
-                    </Button>
+                    <ViewSubmissionButton contract={dispute} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="p-4 pt-0 mt-2">
-            <DecisionButton />
-          </div>
+          <div className="p-4 pt-0 mt-2">{address != dispute.partyA && address != dispute.partyB && <DecisionButton />}</div>
         </div>
       </div>
     </div>

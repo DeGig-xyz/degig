@@ -97,7 +97,7 @@ export class Contract extends MeshAdapter {
     }
 
     const datum = deserializeDatum(utxo?.output?.plutusData as string);
-    const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes, false), 0);
+    const bParty = serializeAddressObj(pubKeyAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes), this.networkId);
 
     const escrowAmount = datum.fields[6].int;
 
@@ -108,7 +108,7 @@ export class Contract extends MeshAdapter {
       .txInRedeemerValue(mConStr1([]))
       .txInScript(this.contractScriptCbor as string)
       .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
-      .txOut(bPartyAddress as string, [{ unit: "lovelace", quantity: String(escrowAmount) }])
+      .txOut(bParty as string, [{ unit: "lovelace", quantity: String(escrowAmount) }])
       .changeAddress(walletAddress)
       .requiredSignerHash(deserializeAddress(walletAddress).pubKeyHash)
       .selectUtxosFrom(utxos)
@@ -173,7 +173,6 @@ export class Contract extends MeshAdapter {
     const datum = deserializeDatum(utxo?.output?.plutusData as string);
 
     const aPartyAddress = serializeAddressObj(scriptAddress(datum.fields[0].fields[0].bytes, datum.fields[0].fields[1].bytes, false), 0);
-
     const bPartyAddress = serializeAddressObj(scriptAddress(datum.fields[1].fields[0].bytes, datum.fields[1].fields[1].bytes, false), 0);
 
     const escrowAmount = datum.fields[6].int;
@@ -216,7 +215,6 @@ export class Contract extends MeshAdapter {
       .txInInlineDatumPresent()
       .txInRedeemerValue(mConStr1([]))
       .txInScript(this.contractScriptCbor as string)
-      .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
       .txOut(aPartyAddress as string, [{ unit: "lovelace", quantity: String(Number(escrowAmount)) }])
       .changeAddress(walletAddress)
       .requiredSignerHash(deserializeAddress(walletAddress).pubKeyHash)

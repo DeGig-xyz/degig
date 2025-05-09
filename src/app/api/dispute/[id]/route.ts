@@ -49,7 +49,7 @@ export async function POST(request: NextRequest, props: { params: Promise<{ id: 
     });
 
     if (!disputeMessage) {
-      throw new Error("Job not found");
+      throw new Error("Dispute not found");
     }
     const response: ApiResponseInterface = {
       statusCode: 200,
