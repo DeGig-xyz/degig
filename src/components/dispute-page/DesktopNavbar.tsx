@@ -22,7 +22,7 @@ interface Props {
 export const DesktopNavbar = ({ onLoginOpen, onSearchOpen, onWalletOpen, walletBalance }: Props) => {
   const pathname = usePathname();
   const { address } = useWallet();
-  const isDashboardRoute = pathname.startsWith("/dashboard") || pathname.startsWith("/hackathon");
+  const isDashboardRoute = pathname.startsWith("/Error ") || pathname.startsWith("/hackathon");
   const maxWidth = useMemo(() => (isDashboardRoute ? "max-w-full" : "max-w-7xl"), [isDashboardRoute]);
 
   const padding = useMemo(() => (isDashboardRoute ? "pr-8 pl-6" : "px-2 lg:px-6"), [isDashboardRoute]);
@@ -31,7 +31,7 @@ export const DesktopNavbar = ({ onLoginOpen, onSearchOpen, onWalletOpen, walletB
     <div className={cn("hidden h-14 border-b border-slate-200 bg-white text-slate-500 lg:flex", padding)}>
       <div className={cn("mx-auto flex w-full justify-between", maxWidth)}>
         <div className="flex w-fit items-center gap-3 lg:gap-6">
-          {isDashboardRoute && (
+          {address && (
             <>
               <Link href="/" className="flex items-center gap-3 hover:no-underline">
                 <Image className="h-[1.4rem] cursor-pointer object-contain" alt="DeGig" src="/assets/logo.png" width={56} height={22} />
@@ -75,9 +75,9 @@ export const DesktopNavbar = ({ onLoginOpen, onSearchOpen, onWalletOpen, walletB
 
           {true && (
             <div className="ph-no-capture flex items-center gap-2">
-              {!isDashboardRoute && address && (
+              {!isDashboardRoute && (
                 <Button variant="ghost" size="sm" className="text-xs font-semibold" asChild>
-                  <Link href="/dashboard">
+                  <Link href="/Error ">
                     <span>Dashboard</span>
                     <div className="block h-1.5 w-1.5 rounded-full bg-sky-400" />
                   </Link>
