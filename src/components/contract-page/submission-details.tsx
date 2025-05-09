@@ -26,7 +26,7 @@ export default function SubmissionDisplay({ contract }: { contract: Contract }) 
       {/* Description Field */}
       <div className="flex w-full flex-col gap-2 mb-4">
         <div className="flex items-center justify-between">
-          <label className="text-[0.85rem] text-slate-600 sm:text-[0.9rem] font-medium">Job Description</label>
+          <label className="text-[0.85rem] text-slate-600 sm:text-[0.9rem] font-medium">Submission</label>
         </div>
         <div className="border rounded-md p-4">
           <DescriptionUI description={ipfsData.submission || ""} />

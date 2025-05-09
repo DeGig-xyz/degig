@@ -75,28 +75,18 @@ export default function ContractsTable({
                   <ViewSubmissionButton contract={contract} />
                 </TableCell>
                 <TableCell className="text-right">
-                  {contract.inprogress != true && address == contract.partyA ? (
-                    <div className="flex justify-end gap-2">
+                  <div className="flex justify-end gap-2">
+                    {contract.inprogress != true && address == contract.partyA ? (
                       <Button variant="outline" size="sm">
-                        Cancel Contract
+                        Cancel
                       </Button>
-                    </div>
-                  ) : contract.inprogress != true && address == contract.partyB ? (
-                    <div className="flex justify-end gap-2">
+                    ) : contract.inprogress != true && address == contract.partyB ? (
                       <ConfirmContractButton txHash={contract.txhash} />
-                    </div>
-                  ) : contract.inprogress == true && address == contract.partyA ? (
-                    <div className="flex justify-end gap-2">
-                      <DisputeContractButton contract={contract} />
-                    </div>
-                  ) : (
-                    contract.inprogress == true &&
-                    address == contract.partyB && (
-                      <div className="flex justify-end gap-2">
-                        <SubmitWorkButton contract={contract} />
-                      </div>
-                    )
-                  )}
+                    ) : (
+                      contract.inprogress == true && address == contract.partyB && <SubmitWorkButton contract={contract} />
+                    )}
+                    <DisputeContractButton contract={contract} />
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

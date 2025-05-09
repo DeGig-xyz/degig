@@ -8,19 +8,54 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Contract } from "@/interface";
 import { MinimalTiptapEditor } from "@/components/tiptap";
+import { useWallet } from "@/hooks/use-wallet";
+import { isNil } from "lodash";
+import { submitWork } from "@/services/contract";
+import { toast } from "sonner";
+import Link from "next/link";
+import { appNetwork } from "@/constants/contract";
+import { parseError } from "@/utils/parse-error";
 
 export default function SubmitWorkButton({ contract }: { contract: Contract }) {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<string>("");
+  const { address, browserWallet } = useWallet();
 
   const handleSubmit = async () => {
-    console.log("Submitting work:", contract);
+    try {
+      if (isNil(address) || isNil(browserWallet)) {
+        throw new Error("Wallet address is required");
+      }
+      const { tx, message } = await submitWork({ txHash: contract.txhash, submission: content, walletAddress: address });
+      if (isNil(tx)) {
+        throw new Error(message);
+      }
+      const signedTx = await browserWallet.signTx(tx);
+      const txHash = await browserWallet.submitTx(signedTx);
+      toast.success("Success", {
+        description: "Contract created successfully",
+        action: (
+          <Link
+            href={`https://${appNetwork == "mainnet" ? "" : appNetwork + "."}cexplorer.io/tx/${txHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View on Explorer
+          </Link>
+        ),
+      });
+      // window.location.href = "/contracts/";
+    } catch (error) {
+      toast.warning("Error creating job", {
+        description: parseError(error),
+      });
+    }
   };
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setIsOpen(true)}>
         <UploadIcon className="mr-2 h-4 w-4" />
-        Submit Work
+        Submit
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-full sm:max-w-[80vw] w-screen h-screen sm:h-[80vh] p-6 flex flex-col overflow-y-auto">

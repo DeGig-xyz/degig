@@ -61,7 +61,7 @@ export default function ChatInterface() {
         <div className="flex-1 flex flex-col">
           {/* Header */}
           <header className="h-14 border-b px-4 flex items-center justify-between">
-            <h1 className="text-sm font-medium">{shortenString(dispute.reason)}</h1>
+            <h1 className="text-sm font-medium">{dispute.reason}</h1>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 <X className="h-4 w-4" />
@@ -73,11 +73,7 @@ export default function ChatInterface() {
               <div className="space-y-4">
                 {messages.map((message: DisputeMessage, index: number) => (
                   <div key={index} className={cn("flex gap-2 max-w-[80%]", message.author === address ? "ml-auto flex-row-reverse" : "mr-auto")}>
-                    {message.author === address ? (
-                      <div className="h-8 w-8 rounded-full bg-primary flex-shrink-0" />
-                    ) : (
-                      <div className="h-8 w-8 rounded-full bg-secondary flex-shrink-0" />
-                    )}
+                    <div className="h-8 w-8 rounded-full bg-primary flex-shrink-0" />
                     <div className="space-y-2">
                       <div className={cn("flex items-center gap-2", message.author === address && "justify-end")}>
                         <span className="text-sm font-medium">{shortenString(message.author || "")}</span>
@@ -108,12 +104,7 @@ export default function ChatInterface() {
             </div>
             <div className="p-4 border-t">
               <div className="flex gap-2">
-                <Textarea
-                  placeholder="Type a message as a customer"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="min-h-[44px] max-h-32"
-                />
+                <Textarea placeholder="Type a message" value={input} onChange={(e) => setInput(e.target.value)} className="min-h-[44px] max-h-32" />
                 <Button className="px-8" onClick={handleChat}>
                   Send
                 </Button>

@@ -5,8 +5,6 @@ import type React from "react";
 import { Button } from "@/components/ui/button";
 import { isNil } from "lodash";
 import { toast } from "sonner";
-import Link from "next/link";
-import { appNetwork } from "@/constants/contract";
 import { parseError } from "@/utils/parse-error";
 import { useWallet } from "@/hooks/use-wallet";
 import { createDisputeDB } from "@/services/dispute/create";
@@ -42,16 +40,7 @@ export default function DisputeContractButton({ contract }: { contract: Contract
       }
 
       toast.success(msg, {
-        description: "Contract created successfully",
-        action: (
-          <Link
-            href={`https://${appNetwork == "mainnet" ? "" : appNetwork + "."}cexplorer.io/tx/${txHash}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View on Explorer
-          </Link>
-        ),
+        description: "Dispute created successfully"
       });
       window.location.href = "/dashboard/dispute/" + dísputeId;
     } catch (error) {
@@ -66,7 +55,7 @@ export default function DisputeContractButton({ contract }: { contract: Contract
         Dispute
       </Button> */}
       <Button variant="outline" size="sm" onClick={() => setIsOpen(true)}>
-        Create Dispute
+        Dispute
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md">

@@ -50,6 +50,31 @@ export async function confirmContract({ txHash, walletAddress }: { txHash: strin
   }
 }
 
+export async function submitWork({ txHash, submission, walletAddress }: { txHash: string; submission: string; walletAddress: string }) {
+  try {
+    if (isNil(txHash)) {
+      throw new Error("txHash is required");
+    }
+    if (isNil(walletAddress)) {
+      throw new Error("walletAddress data is required");
+    }
+    if (isNil(submission)) {
+      throw new Error("submission data is required");
+    }
+
+    const response = await post("/contract/submit", { txHash, submission, walletAddress });
+    return {
+      tx: response.data,
+      message: response.message,
+    };
+  } catch (error) {
+    return {
+      message: parseError(error),
+      tx: null,
+    };
+  }
+}
+
 export async function disputeContract({ contract, walletAddress }: { contract: Contract; walletAddress: string }) {
   try {
     if (isNil(contract)) {
