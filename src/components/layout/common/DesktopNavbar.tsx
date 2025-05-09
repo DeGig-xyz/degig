@@ -20,8 +20,9 @@ interface Props {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const DesktopNavbar = ({ onLoginOpen, onSearchOpen, onWalletOpen, walletBalance }: Props) => {
-  const pathname = usePathname();
-  const { address } = useWallet();
+  const pathname = usePathname(); 
+   const { address } = useWallet();
+
   const isDashboardRoute = pathname.startsWith("/dashboard") || pathname.startsWith("/hackathon");
   const maxWidth = useMemo(() => (isDashboardRoute ? "max-w-full" : "max-w-7xl"), [isDashboardRoute]);
 
@@ -31,16 +32,16 @@ export const DesktopNavbar = ({ onLoginOpen, onSearchOpen, onWalletOpen, walletB
     <div className={cn("hidden h-14 border-b border-slate-200 bg-white text-slate-500 lg:flex", padding)}>
       <div className={cn("mx-auto flex w-full justify-between", maxWidth)}>
         <div className="flex w-fit items-center gap-3 lg:gap-6">
-          {isDashboardRoute && (
-            <>
-              <Link href="/" className="flex items-center gap-3 hover:no-underline">
-                <Image className="h-[1.4rem] cursor-pointer object-contain" alt="DeGig" src="/assets/logo.png" width={56} height={22} />
+          <Link href="/" className="flex items-center gap-3 hover:no-underline">
+            <Image className="h-[1.4rem] cursor-pointer object-contain" alt="DeGig" src="/assets/logo.png" width={56} height={22} />
 
+            {isDashboardRoute && (
+              <>
                 <div className="h-6 w-[1.5px] bg-slate-300" />
                 <p className="text-sm tracking-[1.5px]">Dashboard</p>
-              </Link>{" "}
-            </>
-          )}
+              </>
+            )}
+          </Link>
 
           {pathname !== "/search" && !pathname.startsWith("/new/") && (
             <div
