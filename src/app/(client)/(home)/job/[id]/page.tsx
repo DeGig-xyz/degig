@@ -13,7 +13,7 @@ import { ErrorSection } from "@/components/common/ErrorSection";
 export default function JobDetailsPage() {
   const params = useParams<{ id: string }>();
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job/" + params.id, get);
- if (error) return <ErrorSection title={parseError(error)} />;
+  if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
 
   const { data: initialJob } = data || { data: null };

@@ -25,7 +25,7 @@ export default function SponsorDashboard() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>(`/job?page=${currentPage + 1}&limit=${jobsPerPage}`, get);
   const { walletIcon, address } = useWallet();
 
- if (error) return <ErrorSection title={parseError(error)} />;
+  if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: jobs, pagination } = data || { data: [], pagination: null };
 

@@ -1,4 +1,15 @@
-import { conStr, conStr3, deserializeAddress, deserializeDatum, hexToString, mConStr, mConStr0, mConStr1, pubKeyAddress, scriptAddress, serializeAddressObj, UTxO } from "@meshsdk/core";
+import {
+  deserializeAddress,
+  deserializeDatum,
+  hexToString,
+  mConStr,
+  mConStr0,
+  mConStr1,
+  pubKeyAddress,
+  scriptAddress,
+  serializeAddressObj,
+  UTxO,
+} from "@meshsdk/core";
 import { MeshAdapter } from "./mesh";
 import { ADMINISTRATOR_WALLET_ADDRESS, appNetwork } from "@/constants/contract";
 
@@ -165,10 +176,10 @@ export class Contract extends MeshAdapter {
 
     const escrowAmount = datum.fields[6].int;
     const unsignedTx = this.meshTxBuilder
-    .spendingPlutusScriptV3()
+      .spendingPlutusScriptV3()
       .txIn(utxo.input.txHash, utxo.input.outputIndex, utxo.output.amount, utxo.output.address)
       .txInInlineDatumPresent()
-      .txInRedeemerValue(mConStr(5,[]))
+      .txInRedeemerValue(mConStr(5, []))
       .txInScript(this.contractScriptCbor as string)
       .txOut(ADMINISTRATOR_WALLET_ADDRESS as string, [{ unit: "lovelace", quantity: String(1_000_000) }])
       .txOut(bPartyAddress as string, [{ unit: "lovelace", quantity: String(Number(escrowAmount * proportion)) }])
@@ -213,7 +224,6 @@ export class Contract extends MeshAdapter {
     return await unsignedTx.complete();
   }
 
-
   async submit({ txHash }: { txHash: string }) {
     const { utxos, collateral, walletAddress } = await this.getWalletForTx();
     const utxosTxHash = await this.fetcher.fetchUTxOs(txHash);
@@ -255,5 +265,4 @@ export class Contract extends MeshAdapter {
       .setNetwork(appNetwork);
     return await unsignedTx.complete();
   }
-
 }

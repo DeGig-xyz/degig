@@ -12,7 +12,7 @@ import { parseError } from "@/utils/parse-error";
 
 export default function MainContent() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job", get);
- if (error) return <ErrorSection title={parseError(error)} />;
+  if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: jobs } = data || { data: [] };
   return (

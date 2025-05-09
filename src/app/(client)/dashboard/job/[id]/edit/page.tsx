@@ -20,7 +20,7 @@ export default function Page() {
   const { data, error, isLoading } = useSWR<ApiResponseInterface>("/job/" + params.id, get);
   const { address } = useWallet();
 
- if (error) return <ErrorSection title={parseError(error)} />;
+  if (error) return <ErrorSection title={parseError(error)} />;
   if (isLoading) return <Loading />;
   const { data: initialJob } = data || { data: null };
   if (isNil(initialJob) || initialJob.walletAddress !== initialJob?.walletAddress) {
